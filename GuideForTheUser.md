@@ -66,19 +66,31 @@ https://github.com/S-D-15/bigStories
 
 ---
 
-## 5. Two things still to be switched on
+## 5. One thing still to be switched on
 
-The website is live and working. Two settings still need a person to click through a
-browser — they cannot be done automatically.
+| # | What | Status |
+|---|---|---|
+| **B** | The `/admin/` login | ✅ **Done** — a test story was published successfully |
+| **A** | Letting Netlify read the GitHub code | ⛔ **Still needed** |
 
-| # | What | Why it matters | Time |
-|---|---|---|---|
-| **A** | Let Netlify read the GitHub code | Until this is on, pressing **Publish** saves your story but the live site does **not** refresh on its own | 2 min |
-| **B** | Switch on the `/admin/` login | Until this is on, you cannot sign in to write | 5 min |
+**What works right now:** you can sign in at `/admin/`, write a story, and press
+Publish. It is saved safely and permanently.
 
-Detailed click-by-click steps are in the **README.md** file in this same folder.
+**What does not work yet:** the live website does **not** refresh by itself. Your
+story sits saved and waiting until someone runs one command to push it live.
 
-Until step A is done, someone has to run one command to push your changes live.
+**To fix it** (about 2 minutes, one time only):
+
+1. Open https://app.netlify.com/projects/field-notes-sakshi/configuration/deploys
+2. Under **Continuous deployment**, click **Link repository** (or **Manage repository**)
+3. Choose **GitHub**, allow access, and pick **S-D-15/bigStories**
+4. Check the settings say build command `npm run build` and publish directory `_site`
+5. Save
+
+After that, pressing **Publish** updates the live website on its own in about a
+minute, and nobody needs to touch anything ever again.
+
+Fuller step-by-step notes are in the **README.md** file in this same folder.
 
 ---
 
@@ -188,7 +200,10 @@ did and ask for help.
 
 ---
 
-## 9. One thing that is not finished
+## 9. Housekeeping before you share the site
+
+**Delete the test story.** A story called *"Testing"* was published while checking the
+system. Open `/admin/`, click it, and choose **Delete** when you no longer need it.
 
 The story currently on the site — *HelloCloud Founder Story* — has **placeholder text**
 in it, not the real article. The original project only ever saved the title and

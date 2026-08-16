@@ -17,8 +17,8 @@ browser-based CMS, hosted free on Netlify. **No database, no server, no API.**
 | Site live on Netlify | ✅ `field-notes-sakshi` |
 | Contact form → Gmail | ✅ tested end to end, honeypot verified |
 | Notes publishable from the CMS | ✅ |
+| `/admin/` login | ✅ verified — a story was published through it |
 | **Auto-rebuild when you press Publish** | ⛔ **needs step A below** |
-| **`/admin/` login** | ⛔ **needs step B below** |
 
 Until step A is done, publishing from `/admin/` commits the change to GitHub but the
 live site will not rebuild by itself. Someone has to run `npm run build && netlify
