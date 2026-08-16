@@ -1,0 +1,24 @@
+---
+layout: base.njk
+bodyClass: story-page
+---
+{%- set s = {
+  title: title,
+  dek: dek,
+  kicker: category,
+  date: date,
+  readingTime: readingTime,
+  cover: cover,
+  coverAlt: coverAlt,
+  coverCaption: coverCaption,
+  kind: 'note',
+  eager: true
+} -%}
+{%- set body = content -%}
+{% include "story-body.njk" %}
+
+{# Same floating control as the in-page reader, so both routes into a note feel identical. #}
+<a class="reader-close" href="/#notes" data-reader-close>
+  <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+  <span>All notes</span>
+</a>

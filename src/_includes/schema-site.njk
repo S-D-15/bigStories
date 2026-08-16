@@ -1,0 +1,44 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": {{ (site.url + "/#website") | jsonify | safe }},
+      "url": {{ (site.url + "/") | jsonify | safe }},
+      "name": {{ site.name | jsonify | safe }},
+      "description": {{ site.description | jsonify | safe }},
+      "inLanguage": {{ site.lang | jsonify | safe }},
+      "publisher": { "@id": {{ (site.url + "/#person") | jsonify | safe }} }
+    },
+    {
+      "@type": "Person",
+      "@id": {{ (site.url + "/#person") | jsonify | safe }},
+      "name": {{ site.author.name | jsonify | safe }},
+      "url": {{ (site.url + "/about/") | jsonify | safe }},
+      "jobTitle": {{ site.author.jobTitle | jsonify | safe }},
+      "email": {{ ("mailto:" + site.author.email) | jsonify | safe }},
+      "sameAs": [{{ site.author.linkedin | jsonify | safe }}],
+      "knowsAbout": ["Founder storytelling", "Brand communication", "D2C brands", "Startup profiles"]
+    },
+    {
+      "@type": "Blog",
+      "@id": {{ (site.url + "/#blog") | jsonify | safe }},
+      "name": {{ site.name | jsonify | safe }},
+      "url": {{ (site.url + "/") | jsonify | safe }},
+      "author": { "@id": {{ (site.url + "/#person") | jsonify | safe }} },
+      "blogPost": [
+        {%- for story in collections.stories %}
+        {
+          "@type": "BlogPosting",
+          "headline": {{ story.data.title | jsonify | safe }},
+          "url": {{ (site.url + story.url) | jsonify | safe }},
+          "datePublished": {{ (story.data.date | isoDate) | jsonify | safe }},
+          "author": { "@id": {{ (site.url + "/#person") | jsonify | safe }} }
+        }{% if not loop.last %},{% endif %}
+        {%- endfor %}
+      ]
+    }
+  ]
+}
+</script>

@@ -1,0 +1,55 @@
+{#
+  One form, used by both /contact/ and the homepage #contact section.
+
+  Netlify detects it in the built HTML and handles storage, spam filtering and
+  the email notification — no backend code, no API key, no email service.
+
+  Progressive enhancement: the markup below works with JavaScript disabled
+  (native validation + a normal POST to /thanks/). site.js sets noValidate at
+  runtime and takes over with inline, screen-reader-friendly errors.
+#}
+<form class="contact-form" id="contact-form"
+      name="contact" method="POST" action="/thanks/"
+      data-netlify="true" netlify-honeypot="bot-field">
+
+  <input type="hidden" name="form-name" value="contact">
+
+  {# Honeypot: bots fill it, people never see it. No reCAPTCHA needed. #}
+  <p class="hp" hidden aria-hidden="true">
+    <label>Leave this field empty <input name="bot-field" tabindex="-1" autocomplete="off"></label>
+  </p>
+
+  <div class="cf-grid">
+    <div class="cf">
+      <label for="cf-name">Your name</label>
+      <input id="cf-name" name="name" type="text"
+             required minlength="2" maxlength="80"
+             autocomplete="name" aria-describedby="cf-name-err">
+      <span class="cf-err" id="cf-name-err"></span>
+    </div>
+
+    <div class="cf">
+      <label for="cf-email">Email</label>
+      <input id="cf-email" name="email" type="email"
+             required maxlength="120"
+             autocomplete="email" aria-describedby="cf-email-err">
+      <span class="cf-err" id="cf-email-err"></span>
+    </div>
+
+    <div class="cf cf-full">
+      <label for="cf-message">Message</label>
+      <textarea id="cf-message" name="message" rows="6"
+                required minlength="20" maxlength="4000"
+                aria-describedby="cf-message-hint cf-message-err"></textarea>
+      <span class="cf-hint" id="cf-message-hint">A sentence or two about what you are building is plenty.</span>
+      <span class="cf-err" id="cf-message-err"></span>
+    </div>
+  </div>
+
+  <div class="cf-actions">
+    <button class="btn btn-primary" type="submit">Send message <span class="arrow">→</span></button>
+    <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
+  </div>
+
+  <p class="cf-note">Or email directly: <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a></p>
+</form>

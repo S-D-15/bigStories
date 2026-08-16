@@ -1,0 +1,22 @@
+---
+pagination:
+  data: collections.stories
+  size: 1
+  alias: story
+permalink: "/stories/{{ story.fileSlug }}/partial.html"
+eleventyExcludeFromCollections: true
+---
+{%- set s = {
+  fn: story.data.fn,
+  title: story.data.title,
+  dek: story.data.dek,
+  kicker: story.data.kicker,
+  date: story.data.date,
+  readingTime: story.data.readingTime,
+  cover: story.data.cover,
+  coverAlt: story.data.coverAlt,
+  coverCaption: story.data.coverCaption,
+  eager: true
+} -%}
+{%- set body = story.templateContent -%}
+{%- include "story-body.njk" -%}

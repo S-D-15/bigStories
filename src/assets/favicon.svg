@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Field Notes">
+  <style>
+    .paper { fill: #FAF8F3; }
+    .rule  { fill: #17140F; opacity: .18; }
+    .dot   { fill: #A8482B; }
+    @media (prefers-color-scheme: dark) {
+      .paper { fill: #14130F; }
+      .rule  { fill: #EDE8DE; opacity: .22; }
+      .dot   { fill: #E08A64; }
+    }
+  </style>
+  <rect class="paper" width="64" height="64" rx="13"/>
+  <!-- the one repeating motif on the site: an accent dot over a hairline rule -->
+  <circle class="dot" cx="32" cy="26" r="9"/>
+  <rect class="rule" x="16" y="43" width="32" height="2.5" rx="1.25"/>
+</svg>

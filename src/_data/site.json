@@ -1,0 +1,21 @@
+{
+  "url": "https://field-notes.netlify.app",
+  "name": "Field Notes",
+  "tagline": "founder stories",
+  "title": "Founder Stories & Brand Communication — Field Notes",
+  "description": "Field Notes documents how founders build brands, survive failures, and turn ideas into businesses, one story at a time. Written by Sakshi Suman.",
+  "shortDescription": "How founders build brands, survive failures, and turn ideas into businesses. One story at a time.",
+  "lang": "en-IN",
+  "locale": "en_IN",
+  "author": {
+    "name": "Sakshi Suman",
+    "email": "sakshisuman2901@gmail.com",
+    "jobTitle": "Founder storytelling and brand communication writer",
+    "linkedin": "https://www.linkedin.com/in/REPLACE-WITH-YOUR-HANDLE"
+  },
+  "ogImage": "/assets/og-cover.png",
+  "themeColor": {
+    "light": "#FAF8F3",
+    "dark": "#14130F"
+  }
+}

@@ -1,0 +1,22 @@
+---
+pagination:
+  data: collections.notesPublished
+  size: 1
+  alias: note
+permalink: "/notes/{{ note.fileSlug }}/partial.html"
+eleventyExcludeFromCollections: true
+---
+{%- set s = {
+  title: note.data.title,
+  dek: note.data.dek,
+  kicker: note.data.category,
+  date: note.data.date,
+  readingTime: note.data.readingTime,
+  cover: note.data.cover,
+  coverAlt: note.data.coverAlt,
+  coverCaption: note.data.coverCaption,
+  kind: 'note',
+  eager: true
+} -%}
+{%- set body = note.templateContent -%}
+{%- include "story-body.njk" -%}

@@ -1,0 +1,16 @@
+---
+layout: base.njk
+---
+<header class="page-head">
+  <div class="wrap narrow">
+    <span class="label"><span class="dot"></span>{{ eyebrow or site.name }}</span>
+    <h1>{{ title }}</h1>
+    {%- if dek %}
+    <p class="lede">{{ dek }}</p>
+    {%- endif %}
+  </div>
+</header>
+
+<div class="wrap narrow prose page-prose">
+{{ content | safe }}
+</div>

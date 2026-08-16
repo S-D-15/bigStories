@@ -1,0 +1,208 @@
+########################################################################
+# Field Notes — publishing configuration
+#
+# Login is handled by Netlify's GitHub OAuth provider. Install it once at
+# Netlify → Site configuration → Access & security → OAuth → Install provider.
+#
+# site_url / display_url below are updated to the real domain after the
+# first deploy.
+########################################################################
+
+backend:
+  name: github
+  repo: S-D-15/bigStories
+  branch: main
+  commit_messages:
+    create: 'Publish "{{collection}}": {{slug}}'
+    update: 'Update "{{collection}}": {{slug}}'
+    delete: 'Remove "{{collection}}": {{slug}}'
+    uploadMedia: 'Upload {{path}}'
+    deleteMedia: 'Delete {{path}}'
+
+# Lets the editor run against local files with no login at all, for trying it
+# out before anything is deployed. Ignored in production.
+local_backend: true
+
+# Images the writer drags in land here and are committed with the story.
+media_folder: "src/assets/uploads"
+public_folder: "/assets/uploads"
+
+site_url: https://field-notes.netlify.app
+display_url: https://field-notes.netlify.app
+
+collections:
+  # ------------------------------------------------------------------
+  # Founder stories — the main thing she publishes.
+  # FN number, reading time, slug, RSS, sitemap and JSON-LD are all
+  # generated at build time, so none of them appear as fields here.
+  # ------------------------------------------------------------------
+  - name: stories
+    label: Founder Stories
+    label_singular: Story
+    description: >-
+      Write the story, drop in a cover image, press Publish. The site
+      updates itself in about a minute — the web address never changes.
+    folder: "src/stories"
+    create: true
+    slug: "{{title}}"
+    extension: md
+    format: yaml-frontmatter
+    summary: "{{title}}"
+    sortable_fields: [date, title]
+    fields:
+      - name: title
+        label: Headline
+        widget: string
+        hint: "55–65 characters. Brand name first, then founder name."
+
+      - name: dek
+        label: Dek
+        widget: text
+        hint: "One or two sentences that make someone want to open it. This is also the search-engine description."
+
+      - name: kicker
+        label: Kicker
+        widget: string
+        required: false
+        hint: "Sector · model · city — for example: Skincare · D2C · Jhansi"
+
+      - name: date
+        label: Publish date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
+
+      - name: cover
+        label: Cover image
+        widget: image
+        required: false
+        hint: "Optional. Shown at the top of the story and used when the link is shared. Landscape works best."
+
+      - name: coverAlt
+        label: Cover image description
+        widget: string
+        required: false
+        hint: "Describe the picture in a few words, for readers using a screen reader."
+
+      - name: coverCaption
+        label: Cover caption
+        widget: string
+        required: false
+        hint: "Optional caption printed under the image."
+
+      - name: draft
+        label: Save as draft
+        widget: boolean
+        default: false
+        required: false
+        hint: "On = saved but NOT published to the live site. Turn off when you are ready."
+
+      - name: body
+        label: Story
+        widget: markdown
+        hint: "The article itself. Headings, bold, quotes, links and images all work."
+
+      - name: seo
+        label: "Search-engine overrides (optional)"
+        widget: object
+        required: false
+        collapsed: true
+        fields:
+          - { name: seoTitle, label: "Custom page title", widget: string, required: false }
+          - { name: seoDescription, label: "Custom description", widget: text, required: false }
+
+  # ------------------------------------------------------------------
+  # Field notes — the shorter pieces in the second section.
+  # "Writing now" announces a piece before it exists; it appears on the
+  # front page but is deliberately not clickable and has no page.
+  # ------------------------------------------------------------------
+  - name: notes
+    label: Field Notes
+    label_singular: Note
+    description: >-
+      Shorter pieces. Set Status to "Writing now" to announce one before
+      it is finished, then switch to "Published" when it is ready to read.
+    folder: "src/notes"
+    create: true
+    slug: "{{title}}"
+    extension: md
+    format: yaml-frontmatter
+    summary: "{{title}}"
+    sortable_fields: [date, title]
+    fields:
+      - name: title
+        label: Title
+        widget: string
+
+      - name: category
+        label: Section
+        widget: select
+        default: "Brand story"
+        options:
+          - "Brand story"
+          - "Founder communication"
+        hint: "The small label printed above the title."
+
+      - name: dek
+        label: Summary
+        widget: text
+        hint: "The paragraph shown on the front page. Two or three sentences."
+
+      - name: date
+        label: Date
+        widget: datetime
+        date_format: "YYYY-MM-DD"
+        time_format: false
+        picker_utc: true
+
+      - name: status
+        label: Status
+        widget: select
+        default: writing
+        options:
+          - { label: "Writing now — listed on the site, not readable yet", value: "writing" }
+          - { label: "Published — anyone can open and read it", value: "published" }
+        hint: "Writing now shows the pulsing dot and cannot be clicked. Published makes it open like a story."
+
+      - name: draft
+        label: Hide completely
+        widget: boolean
+        default: false
+        required: false
+        hint: "On = does not appear on the site at all, not even as 'Writing now'."
+
+      - name: body
+        label: The note
+        widget: markdown
+        required: false
+        hint: "Only needed once you set Status to Published."
+
+  # ------------------------------------------------------------------
+  # The standing pages.
+  # ------------------------------------------------------------------
+  - name: pages
+    label: Pages
+    description: The About and Privacy pages.
+    files:
+      - name: about
+        label: About page
+        file: "src/about.md"
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: eyebrow, label: Small label above the title, widget: string, required: false }
+          - { name: dek, label: Intro line, widget: text, required: false }
+          - { name: layout, label: Layout, widget: hidden, default: "page.njk" }
+          - { name: permalink, label: Address, widget: hidden, default: "/about/" }
+          - { name: body, label: Page content, widget: markdown }
+
+      - name: privacy
+        label: Privacy page
+        file: "src/privacy.md"
+        fields:
+          - { name: title, label: Title, widget: string }
+          - { name: eyebrow, label: Small label above the title, widget: string, required: false }
+          - { name: dek, label: Intro line, widget: text, required: false }
+          - { name: layout, label: Layout, widget: hidden, default: "page.njk" }
+          - { name: permalink, label: Address, widget: hidden, default: "/privacy/" }
+          - { name: body, label: Page content, widget: markdown }

@@ -1,0 +1,27 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ title | jsonify | safe }},
+  "description": {{ (dek or description) | metaText(300) | jsonify | safe }},
+  "url": {{ (site.url + page.url) | jsonify | safe }},
+  "mainEntityOfPage": { "@type": "WebPage", "@id": {{ (site.url + page.url) | jsonify | safe }} },
+  "datePublished": {{ (date | isoDate) | jsonify | safe }},
+  "dateModified": {{ (date | isoDate) | jsonify | safe }},
+  "inLanguage": {{ site.lang | jsonify | safe }},
+  {%- if cover %}
+  "image": {{ (site.url + cover) | jsonify | safe }},
+  {%- endif %}
+  {%- if words %}
+  "wordCount": {{ words }},
+  {%- endif %}
+  "author": {
+    "@type": "Person",
+    "@id": {{ (site.url + "/#person") | jsonify | safe }},
+    "name": {{ site.author.name | jsonify | safe }},
+    "url": {{ (site.url + "/about/") | jsonify | safe }}
+  },
+  "publisher": { "@id": {{ (site.url + "/#person") | jsonify | safe }} },
+  "isPartOf": { "@id": {{ (site.url + "/#blog") | jsonify | safe }} }
+}
+</script>

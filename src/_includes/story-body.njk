@@ -1,0 +1,59 @@
+{#
+  The article itself. Rendered from this one file in four places:
+    - the story page      /stories/<slug>/          (crawlable, shareable)
+    - the story fragment  /stories/<slug>/partial.html
+    - the note page       /notes/<slug>/
+    - the note fragment   /notes/<slug>/partial.html
+
+  Callers set `s` (normalised data) and `body` (rendered HTML).
+  `s.fn` is the FN number — stories have one, notes do not, so the eyebrow
+  adapts rather than there being a second near-identical template to keep
+  in step. Nothing here can drift apart, because there is only one copy.
+#}
+<article class="story" aria-labelledby="story-title">
+
+  <header class="story-head">
+    <div class="wrap narrow">
+      <span class="label">
+        <span class="dot"></span>
+        {%- if s.fn %}FN {{ s.fn }}{% endif -%}
+        {%- if s.fn and s.kicker %} · {% endif -%}
+        {%- if s.kicker %}{{ s.kicker }}{% endif -%}
+      </span>
+      <h1 id="story-title">{{ s.title }}</h1>
+      {%- if s.dek %}
+      <p class="story-dek">{{ s.dek }}</p>
+      {%- endif %}
+      <p class="story-meta">
+        <time datetime="{{ s.date | isoDate }}">{{ s.date | niceDate }}</time>
+        {%- if s.readingTime %} · {{ s.readingTime }} min read{% endif %}
+        · by {{ site.author.name }}
+      </p>
+    </div>
+  </header>
+
+  {%- if s.cover %}
+  <figure class="story-cover">
+    <img src="{{ s.cover }}" alt="{{ s.coverAlt or '' }}" width="1600" height="900"{% if not s.eager %} loading="lazy"{% endif %} decoding="async">
+    {%- if s.coverCaption %}
+    <figcaption>{{ s.coverCaption }}</figcaption>
+    {%- endif %}
+  </figure>
+  {%- endif %}
+
+  <div class="wrap narrow prose">
+    {{ body | safe }}
+  </div>
+
+  <footer class="story-foot">
+    <div class="wrap narrow">
+      <p class="label"><span class="dot"></span>End of {{ s.kind or 'story' }}</p>
+      <p class="story-byline">
+        Written by <strong>{{ site.author.name }}</strong> — {{ site.author.jobTitle | lower }}.
+        If you are building something worth documenting,
+        <a href="/contact/">the reporting starts with a conversation</a>.
+      </p>
+    </div>
+  </footer>
+
+</article>

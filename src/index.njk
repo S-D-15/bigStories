@@ -1,0 +1,153 @@
+---
+layout: base.njk
+---
+{%- set latest = collections.stories | first %}
+
+<header class="hero">
+  <div class="wrap">
+    <span class="label"><span class="dot"></span>Recorded conversations, written down</span>
+    <h1>Stories behind the founders building <em>India's next generation</em> of brands.</h1>
+    <p class="lede">{{ site.description }}, this is where founder journeys, brand decisions, and startup ideas get reported and told properly, not just posted.</p>
+    <div class="btn-row">
+      {#- Always points at the newest story. Nothing to update by hand. -#}
+      <a class="btn btn-primary" href="{{ latest.url if latest else '/#stories' }}">Read the latest story <span class="arrow">→</span></a>
+      <a class="btn btn-ghost" href="/#services">Work with me</a>
+    </div>
+    <div class="waveform" id="waveform" aria-hidden="true"></div>
+  </div>
+</header>
+
+<section id="stories">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Founder Stories</h2>
+      <button class="saved-toggle" id="saved-toggle" type="button" aria-pressed="false">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+        <span id="saved-label">Saved</span>
+      </button>
+    </div>
+
+    <div class="entries" id="entry-list">
+      {%- for story in collections.stories %}
+      <article class="entry{% if loop.first %} lead{% endif %}" data-slug="{{ story.url }}">
+        <div class="entry-num">FN {{ story.data.fn }}</div>
+        <div class="entry-body">
+          <h3><a class="stretch" href="{{ story.url }}" data-reader>{{ story.data.title }}</a></h3>
+          {%- if story.data.kicker %}
+          <p class="entry-kicker">{{ story.data.kicker }}</p>
+          {%- endif %}
+          <p class="entry-dek">{{ story.data.dek }}</p>
+          <p class="entry-meta"><time datetime="{{ story.data.date | isoDate }}">{{ story.data.date | niceDate }}</time> · {{ story.data.readingTime }} min read</p>
+        </div>
+        <div class="entry-side">
+          <button class="save" type="button" aria-pressed="false" aria-label="Save this story for later">
+            <svg viewBox="0 0 24 24"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+          </button>
+        </div>
+      </article>
+      {%- else %}
+      <p class="empty-saved" style="display:block">The first story is being reported now.</p>
+      {%- endfor %}
+
+      <p class="empty-saved" id="empty-saved">Nothing saved yet. Tap the bookmark on a story to keep it here.</p>
+    </div>
+
+    <div class="in-field">
+      <div>
+        <span class="label"><span class="dot"></span>In the field</span>
+        <p>The next story is being reported now. If you are building something worth documenting, the reporting starts with a conversation.</p>
+      </div>
+      <a class="btn btn-ghost" href="/contact/">Pitch a story <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="notes">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Brand &amp; Founder Communication</h2>
+      <span class="label">Field notes</span>
+    </div>
+    <div class="notes">
+      {%- for note in collections.notes %}
+      <article class="note{% if note.data.isPublished %} is-readable{% endif %}">
+        <span class="label">{{ note.data.category }}</span>
+        {%- if note.data.isPublished %}
+        <h3><a class="stretch" href="{{ note.url }}" data-reader>{{ note.data.title }}</a></h3>
+        {%- else %}
+        <h3>{{ note.data.title }}</h3>
+        {%- endif %}
+        <p>{{ note.data.dek }}</p>
+        {%- if note.data.isPublished %}
+        <span class="label note-link">Read the note <span class="arrow">→</span></span>
+        {%- else %}
+        <span class="note-status">Writing now</span>
+        {%- endif %}
+      </article>
+      {%- endfor %}
+    </div>
+  </div>
+</section>
+
+<section id="subscribe">
+  <div class="wrap subscribe">
+    <h2>One founder story, straight to your inbox.</h2>
+    <p>No weekly newsletter, no roundups. You get an email when a new story is published, and nothing else.</p>
+    <form class="sub-form" name="subscribe" method="POST" action="/thanks/" data-netlify="true" netlify-honeypot="sub-bot">
+      <input type="hidden" name="form-name" value="subscribe">
+      <p class="hp" hidden aria-hidden="true"><label>Leave this empty <input name="sub-bot" tabindex="-1" autocomplete="off"></label></p>
+      <label class="skip-link" for="sub-email">Email address</label>
+      <input id="sub-email" type="email" name="email" placeholder="you@company.com" required autocomplete="email">
+      <button class="btn btn-primary" type="submit">Subscribe</button>
+    </form>
+    <p class="sub-note">Roughly one email a month. Unsubscribe any time.</p>
+  </div>
+</section>
+
+<section id="services">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Founder Storytelling Services</h2>
+      <span class="label">Work with me</span>
+    </div>
+    <p class="section-intro">I help founders turn what is already in their head — the journey, the reasoning, the voice — into assets that build trust before a single sales call.</p>
+
+    <ul class="services">
+      <li><span>Founder journey articles</span><span class="num">01</span></li>
+      <li><span>LinkedIn thought leadership posts</span><span class="num">02</span></li>
+      <li><span>Brand stories</span><span class="num">03</span></li>
+      <li><span>Website "About" pages</span><span class="num">04</span></li>
+      <li><span>Press release drafts</span><span class="num">05</span></li>
+      <li><span>Startup profiles</span><span class="num">06</span></li>
+    </ul>
+
+    <div class="cta-band">
+      <h3>Have a founder story worth telling?</h3>
+      <a class="btn btn-primary" href="/contact/">Start a conversation <span class="arrow">→</span></a>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Contact</h2>
+      <span class="label">Get in touch</span>
+    </div>
+    <p class="section-intro">A story to pitch, a project to scope, or a question. This reaches my inbox directly.</p>
+    {% include "contact-form.njk" %}
+  </div>
+</section>
+
+{# ---------- in-page story reader ---------- #}
+<dialog class="reader" id="reader" aria-labelledby="story-title" data-site="{{ site.name }}">
+  <div class="reader-progress" aria-hidden="true"><i id="reader-bar"></i></div>
+  <div class="reader-scroll" id="reader-scroll" tabindex="-1">
+    <div class="reader-content" id="reader-content"></div>
+  </div>
+  <button class="reader-close" type="button" id="reader-close"
+          aria-label="Collapse story and return to the story list">
+    <svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 15l-6-6-6 6"/></svg>
+    <span>Collapse</span>
+  </button>
+</dialog>

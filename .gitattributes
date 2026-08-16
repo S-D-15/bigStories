@@ -1,0 +1,7 @@
+# Normalise to LF in the repository. The site is authored on Windows but built
+# on Linux by Netlify, so line endings must not drift between the two.
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.ico binary
