@@ -2,89 +2,96 @@
 
 Founder stories and brand communication, written by Sakshi Suman.
 
+**Live: https://field-notes-sakshi.netlify.app**
+
 A static site built with [Eleventy](https://www.11ty.dev/), published through a
 browser-based CMS, hosted free on Netlify. **No database, no server, no API.**
 
 ---
 
-## For the writer — how to publish a story
-
-1. Go to **`https://your-site.com/admin/`**
-2. Click **Sign in with GitHub**
-3. **Founder Stories → New Story**
-4. Fill in: headline, dek, kicker, date, cover image, and the story itself
-5. Press **Publish**
-
-The live site updates itself in about a minute. **The web address never changes** —
-anyone who has the site URL sees new stories automatically.
-
-Things you never have to touch, because they are worked out automatically:
+## Status
 
 | | |
 |---|---|
-| The `FN 001` number | counts up in publication order |
-| Reading time | measured from the word count |
-| The story's web address | made from the headline |
-| The "Read the latest story" button | always points at the newest one |
-| RSS feed, sitemap, Google structured data | regenerated on every publish |
+| Code on GitHub | ✅ `S-D-15/bigStories` |
+| Site live on Netlify | ✅ `field-notes-sakshi` |
+| Contact form → Gmail | ✅ tested end to end, honeypot verified |
+| Notes publishable from the CMS | ✅ |
+| **Auto-rebuild when you press Publish** | ⛔ **needs step A below** |
+| **`/admin/` login** | ⛔ **needs step B below** |
 
-**Save as draft** keeps a story completely off the live site — no page, no web
-address, nothing for Google to find — until you switch it off.
+Until step A is done, publishing from `/admin/` commits the change to GitHub but the
+live site will not rebuild by itself. Someone has to run `npm run build && netlify
+deploy --prod --dir=_site` from this folder.
 
 ---
 
-## Setup — done once
+## Two steps left — both browser-only, neither can be scripted
 
-### 1. GitHub
+### A. Let Netlify pull from GitHub (~2 minutes)
 
-Create a free GitHub account for the writer, and a repository for this project.
-Push this folder to it.
+This is what makes *press Publish → site updates itself* work.
 
-```bash
-git init
-git add .
-git commit -m "Field Notes"
-git branch -M main
-git remote add origin https://github.com/OWNER/REPO.git
-git push -u origin main
-```
+1. Open **https://app.netlify.com/projects/field-notes-sakshi/configuration/deploys**
+2. Under **Continuous deployment**, choose **Link repository** (or **Manage
+   repository** if it already shows one)
+3. Pick **GitHub** → authorise → when GitHub asks which repositories Netlify may
+   access, grant it **S-D-15/bigStories**
+4. Confirm the build settings — they should read:
+   - Build command: `npm run build`
+   - Publish directory: `_site`
+5. Save, then **Deploys → Trigger deploy → Deploy site** to confirm it builds green
 
-Then edit **`src/admin/config.yml`** and replace `OWNER/REPO` on line 13 with the
-real repository path.
+> Netlify already knows the repo path; what it lacks is GitHub's permission to read
+> it. A build triggered now fails with *"Unable to access repository"* until this is
+> granted.
 
-### 2. Netlify
+### B. Turn on the `/admin/` login (~5 minutes)
 
-1. Sign up at [netlify.com](https://www.netlify.com/) with the GitHub account
-2. **Add new site → Import an existing project →** pick the repository
-3. Build settings are read from `netlify.toml` — accept them
-4. Deploy
+**B1 — create a GitHub OAuth App**
 
-Every push, and every Publish from `/admin/`, now rebuilds the site automatically.
+1. Open **https://github.com/settings/developers** → **OAuth Apps** → **New OAuth App**
+   *(sign in as **S-D-15**)*
+2. Fill in:
+   - Application name: `Field Notes CMS`
+   - Homepage URL: `https://field-notes-sakshi.netlify.app`
+   - Authorization callback URL: `https://api.netlify.com/auth/done`
+3. **Register application**
+4. Copy the **Client ID**, then **Generate a new client secret** and copy that too
 
-### 3. Turn on CMS login
+**B2 — give them to Netlify**
 
-In Netlify: **Site configuration → Access & security → OAuth → Install provider →
-GitHub.** This is what makes the **Sign in with GitHub** button work.
+1. Open **https://app.netlify.com/projects/field-notes-sakshi/configuration/access**
+2. Find **OAuth** → **Install provider** → **GitHub**
+3. Paste the Client ID and Client Secret → **Install**
 
-### 4. Contact form notifications
+Then go to `https://field-notes-sakshi.netlify.app/admin/`, click **Sign in with
+GitHub**, and the editor opens.
 
-In Netlify: **Forms → Form notifications → Add notification → Email notification.**
-Send `contact` submissions to `sakshisuman2901@gmail.com`.
+---
 
-Netlify stores every submission in the dashboard as well, so nothing is lost if an
-email bounces. Spam is caught by a hidden honeypot field plus Netlify's own filter —
-no reCAPTCHA, so no third-party scripts and no cookie banner.
+## For the writer — how to publish
 
-> Free tier: 100 form submissions/month, 300 build minutes/month, 100 GB bandwidth.
+There is a plain-language guide on the site itself:
+**https://field-notes-sakshi.netlify.app/guide/**
+(unlisted and hidden from search engines — bookmark it).
 
-### 5. Custom domain
+The short version: go to `/admin/`, sign in with GitHub, click **New Story**, fill in
+the boxes, press **Publish**. The site updates itself in about a minute and **the web
+address never changes** — nobody ever needs a new link.
 
-Netlify: **Domain management → Add a domain.** Point the registrar's nameservers at
-Netlify. HTTPS is issued automatically and free.
+Things that work themselves out and are not fields to fill in: the `FN` number,
+reading time, the story's web address, the "Read the latest story" button, the RSS
+feed, the sitemap, and the Google structured data.
 
-Then update **`src/_data/site.json`** → `"url"` to the real domain, and the
-`site_url` / `display_url` lines in `src/admin/config.yml`. That one file drives
-every canonical tag, social preview, RSS link and structured-data record on the site.
+**Stories** have a *Save as draft* switch — on means saved but invisible, with no web
+address at all.
+
+**Notes** have a *Status* dropdown instead:
+
+- **Writing now** — listed on the front page with a pulsing dot, deliberately not
+  clickable, no page. For announcing a piece before it is written.
+- **Published** — becomes clickable and opens on the page, exactly like a story.
 
 ---
 
@@ -94,6 +101,12 @@ every canonical tag, social preview, RSS link and structured-data record on the 
 npm install
 npm start     # http://localhost:8080, live reload
 npm run build # writes _site/
+```
+
+Deploy manually (only needed until step A above is done):
+
+```bash
+npm run build && netlify deploy --prod --dir=_site
 ```
 
 ### Layout
@@ -106,39 +119,52 @@ src/
   _includes/
     base.njk          <head> (all SEO), nav, footer
     story.njk         standalone story page layout
-    story-body.njk    the <article> — shared by the page AND the reader fragment
-    page.njk          about / privacy / thanks / 404
+    note.njk          standalone note page layout
+    story-body.njk    the <article> — shared by story AND note, page AND fragment
+    page.njk          about / privacy / guide / thanks / 404
     contact-form.njk  shared by /contact/ and the homepage section
     schema-*.njk      JSON-LD
-  admin/              the CMS (config.yml is the field definitions)
+  admin/              the CMS (config.yml holds the field definitions)
   assets/             style.css, site.js, icons, uploads/
-  stories/*.md        the content
-  stories/stories.11tydata.js   per-story defaults + draft suppression
-  story-partials.njk  emits /stories/<slug>/partial.html for the reader
+  stories/*.md        founder stories
+    stories.11tydata.js   per-story defaults + draft suppression
+  notes/*.md          field notes
+    notes.11tydata.js     per-note defaults + writing/draft suppression
+  story-partials.njk  emits /stories/<slug>/partial.html
+  note-partials.njk   emits /notes/<slug>/partial.html
   index.njk           the homepage
 ```
 
 ### How the in-page reader works
 
-Each story is built twice from one markdown file:
+Every story and every published note is built **twice** from one markdown file:
 
-- `/stories/<slug>/` — a full standalone page. This is what Google indexes and what
-  a shared link opens.
+- `/stories/<slug>/` — a full standalone page. What Google indexes, what a shared
+  link opens.
 - `/stories/<slug>/partial.html` — the bare `<article>`, fetched by the reader.
 
 Both render from `_includes/story-body.njk`, so they cannot drift apart.
 
-Clicking a story fetches the fragment into a native `<dialog>` and `pushState`s the
-real URL. The `<a href>` underneath stays real, so **crawlers, ⌘-click, middle-click
-and no-JS visitors all still get the standalone page.** The reader is an enhancement
-layered on a fully crawlable site, never a replacement for one.
+Clicking a link marked `data-reader` fetches the fragment into a native `<dialog>` and
+`pushState`s the real URL. The `<a href>` underneath stays real, so **crawlers,
+⌘-click, middle-click and no-JS visitors all still get the standalone page**. The
+reader is an enhancement layered on a fully crawlable site, never a replacement.
 
 Native `<dialog>` + `showModal()` provides focus trapping, Esc handling and an inert
 background for free.
 
-### Adding a story without the CMS
+### Content states
 
-Drop a markdown file in `src/stories/`:
+Set in the CMS, enforced by `*.11tydata.js` — a hidden item gets **no permalink** in a
+production build, so it has no public URL at all, not merely a hidden link.
+
+| | Story | Note |
+|---|---|---|
+| Visible and readable | `draft: false` | `status: published` |
+| Announced, not readable | — | `status: writing` |
+| Completely hidden | `draft: true` | `draft: true` |
+
+### Adding content without the CMS
 
 ```yaml
 ---
@@ -158,17 +184,37 @@ Everything else is derived.
 
 ---
 
+## Contact form
+
+Netlify Forms — no backend code, no API key, no email service.
+
+Notifications go to `sakshisuman2901@gmail.com` for both the `contact` and `subscribe`
+forms. Submissions are also kept in the Netlify dashboard, so nothing is lost if an
+email bounces.
+
+Spam is caught by a hidden honeypot plus Netlify's own filter — **verified working**:
+a submission with the honeypot filled is silently discarded.
+
+Two limits worth knowing:
+
+- Free tier is **100 submissions/month**
+- The notification email arrives *from Netlify* with the sender's address in the body,
+  so replying is copy-paste rather than one-click. Fixing that properly means adding
+  an email service and an API key; not worth it at this volume.
+
+---
+
 ## Still outstanding
 
-- [ ] Replace the placeholder body of `src/stories/hellocloud-founder-story.md` —
+- [ ] **Steps A and B above**
+- [ ] **Replace the placeholder body** of `src/stories/hellocloud-founder-story.md` —
       the article text never existed in the original project, only its index row
 - [ ] Real LinkedIn URL in `src/_data/site.json` (still `REPLACE-WITH-YOUR-HANDLE`)
-- [ ] Real domain in `src/_data/site.json` and `src/admin/config.yml`
-- [ ] `OWNER/REPO` in `src/admin/config.yml`
 - [ ] Review `src/about.md` and `src/privacy.md` — both are working drafts
-- [ ] The generated `og-cover.png` and `apple-touch-icon.png` are minimal brand
-      marks; replace with designed artwork when there is some
-- [ ] The subscribe form currently posts to Netlify Forms (`subscribe`). Point it at
-      a real newsletter tool when one is chosen.
+- [ ] Replace the generated `og-cover.png` / `apple-touch-icon.png` with designed
+      artwork when there is some
+- [ ] Custom domain, when there is one: Netlify → Domain management → Add a domain,
+      then update `url` in `src/_data/site.json` and `site_url`/`display_url` in
+      `src/admin/config.yml`
 
-`archive/` holds the original single-file site it was built from.
+`archive/` holds the original single-file site this was built from.
