@@ -27,8 +27,8 @@ local_backend: true
 media_folder: "src/assets/uploads"
 public_folder: "/assets/uploads"
 
-site_url: https://field-notes.netlify.app
-display_url: https://field-notes.netlify.app
+site_url: https://field-notes-sakshi.netlify.app
+display_url: https://field-notes-sakshi.netlify.app
 
 collections:
   # ------------------------------------------------------------------
