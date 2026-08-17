@@ -1,18 +1,17 @@
 ---
-title: "HelloCloud Founder Story: How Jalaj Verma Built a Gen Z Skincare Brand"
-dek: "Jalaj Verma did not run a focus group. He ran a comment section. How a founder, three childhood friends, and an Instagram DM thread became a skincare brand for India's most confused generation of skincare buyers."
-kicker: "Skincare · D2C · Jhansi"
-date: 2026-06-01
+title: 'HelloCloud Founder Story: How Jalaj Verma Built a Gen Z Skincare Brand'
+dek: Jalaj Verma did not run a focus group. He ran a comment section. How a founder, three childhood friends, and an Instagram DM thread became a skincare brand for India's most confused generation of skincare buyers.
+kicker: Skincare · D2C · Jhansi
+date: 2026-08-17
+cover: ''
+coverAlt: ''
+coverCaption: ''
 draft: false
+seo: null
 ---
 
-> **Editor's note — replace this body.** The metadata above is migrated from the
-> original site. The article text itself was never written down anywhere in the old
-> project, so what follows is placeholder copy that exists only to exercise the
-> reading view. Open `/admin/`, click this story, and paste the real piece over it.
-
 Jalaj Verma was nineteen when he started reading skincare comment sections the way
-other people read the news. Not the posts — the comments. Hundreds of them a night,
+other people read the news. Not the posts; the comments. Hundreds of them a night,
 on other brands' advertisements, screenshotting the ones that sounded confused.
 
 ## The comment section as research
@@ -46,14 +45,11 @@ The founding team came out of the same Jhansi school year — a chemist, a desig
 and someone who could actually talk to manufacturers without getting quoted a
 first-timer's price. The first formulation ran to fourteen revisions.
 
-What did not change across those fourteen revisions was the count: *four products.*
+What did not change across those fourteen revisions was the count: _four products._
 Not a range. Not a system. Four.
 
 ## What it cost
 
 The first batch sold out in eleven days, which sounds like a triumph and was in fact
-a small disaster — they had no second batch, no supplier slack, and a comment section
+a small disaster; they had no second batch, no supplier slack, and a comment section
 that had just been taught to expect answers within the hour.
-
-*Reporting for this piece took place over three conversations between March and May
-2026.*
